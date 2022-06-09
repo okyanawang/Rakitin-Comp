@@ -5,9 +5,16 @@ namespace App\Http\Controllers;
 use Dotenv\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class LoginController extends Controller
 {
+    /**
+     * Handle an authentication attempt.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         return view('auth.login');
@@ -19,10 +26,10 @@ class LoginController extends Controller
         $login = request()->input('email');
         if (is_numeric($login)) 
         {
-            $field = 'phone';
+            $field = 'a_no_hp';
             request()->merge([$field => $login]);
             $credentials = $request->validate([
-                'phone' => 'required',
+                'a_no_hp' => 'required',
                 'password' => 'required'
             ]);
         }else 
@@ -32,10 +39,13 @@ class LoginController extends Controller
                 'password' => 'required'
             ]);
         }
-
-        if (Auth::attempt($credentials))
+        
+        // $anjing = Auth::attempt($credentials);
+        // dd($credentials);
+        dd(Auth::attempt($credentials));
+        if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']]))
         {
-
+            
             if ($request->get('remember'))
             {
                 $user = Auth::getProvider()->retrieveByCredentials($credentials);
@@ -45,10 +55,11 @@ class LoginController extends Controller
             $request->session()->regenerate();
             return redirect()->intended('/');
         }
+        dd($credentials);
         
         return back()->with('loginError', 'Login failed!');
     }
-
+    
     public function logout(Request $request)
     {
         Auth::logout();
