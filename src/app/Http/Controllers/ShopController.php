@@ -16,7 +16,7 @@ class ShopController extends Controller
     }
     
     public function index(){
-        $products = DB::table('products')->get();
+        $products = DB::table('component')->get();
         $categories = Category::all();
         $user = Auth::user();
         // dd($products);
