@@ -39,18 +39,9 @@ class LoginController extends Controller
                 'password' => 'required'
             ]);
         }
-        
-        // dd($credentials);
-        // dd(Auth::attempt($credentials));
+
         if (Auth::attempt($credentials))
         {
-            
-            if ($request->get('remember'))
-            {
-                $user = Auth::getProvider()->retrieveByCredentials($credentials);
-                auth()->login($user, true);
-            }
-            
             $request->session()->regenerate();
             return redirect()->intended('/');
         }

@@ -26,16 +26,12 @@ class RegisterController extends Controller
 
         $validated['password'] = bcrypt($validated['password']);
 
+        $validated['ap_id'] = 'US';
+
         if (($user = User::create($validated))){
-            
-            if ($request->get('remember'))
-            {
-                auth()->login($user, true);
-            }else 
-            {
-                auth()->login($user);
-            }
-            
+        
+            auth()->login($user);
+
             return redirect('/login')->with('loginError', 'Login failed!');
         }
 

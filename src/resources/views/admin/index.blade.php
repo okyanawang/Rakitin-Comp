@@ -14,35 +14,31 @@
                 <tr>
                     <th>ID</th>
                     <th>Image</th>
-                    <th>Name</th>
+                    <th>Description</th>
                     <th>Price</th>
-                    <th>Weight</th>
                     <th>Stock</th>
                     <th>Category</th>
-                    <th>Description</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                     @forelse ($products as $product)
                         <tr>
-                        <td>{{ $product->id }}</td>
+                        <td>{{ $product->c_id }}</td>
                         <td>
-                            @if (Str::contains($product->image, 'https:/'))
-                                <img src="{{$product->image}}" alt="image" height="75px">
+                            @if (Str::contains($product->c_img, 'https:/'))
+                                <img src="{{$product->c_img}}" alt="image" height="75px">
                             @else
-                                <img src="{{ asset('images/product/'.$product->image)}}" alt="image" height="75px">
+                                <img src="{{ asset('images/product/'.$product->c_img)}}" alt="image" height="75px">
                             @endif
                         </td>
-                        <td>{{ $product->name }}</td>
-                        <td>{{ $product->price }}</td>
-                        <td>{{ $product->weight }}</td>
-                        <td>{{ $product->stock }}</td>
-                        <td>{{ $product->category->name }}</td>
-                        <td>{{ $product->description }}</td>
+                        <td>{{ $product->c_description }}</td>
+                        <td>{{ $product->c_price }}</td>
+                        <td>{{ $product->c_qty }}</td>
+                        <td>{{ $product->category->cc_name }}</td>
                         <td class="d-flex justify-content-around">
-                            <a href="/product/{{$product->id}}/edit" class="btn btn-warning btn-sm">Edit</a>
-                            <form action="/product/{{$product->id}}" method="POST">
+                            <a href="/product/{{ $product->c_id }}/edit" class="btn btn-warning btn-sm">Edit</a>
+                            <form action="/product/{{ $product->c_id }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <input type="submit" value="Delete" class="btn btn-danger btn-sm">

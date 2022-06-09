@@ -49,10 +49,8 @@ class ProductController extends Controller
         $this->authorize('isAdmin');
 
         $request->validate([
-            'name' => 'required|unique:products',
             'price' => 'required',
-            'weight' => 'required',
-            'description' => 'required',
+            'c_description' => 'required|unique:component',
             'stock' => 'required',
             'categories_id' => 'required',
             'image' => 'required',
@@ -62,13 +60,13 @@ class ProductController extends Controller
 
         $product = new Product;
 
-        $product->name = $request->name;
-        $product->price = $request->price;
-        $product->weight = $request->weight;
-        $product->description = $request->description;
-        $product->stock = $request->stock;
-        $product->categories_id = $request->categories_id;
-        $product->image = $request->image;
+        // $product->name = $request->name;
+        $product->c_price = $request->price;
+        // $product->weight = $request->weight;
+        $product->c_description = $request->c_description;
+        $product->c_qty = $request->stock;
+        $product->cc_id = $request->categories_id;
+        $product->c_img = $request->image;
    
         $product->save();
         // $request->image->move(public_path('images/product'), $image);
@@ -97,9 +95,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         $this->authorize('isAdmin');
-
         $categories = Category::all();
         $product = Product::findorfail($id);
+        // dd($categories);
         return view('admin.edit', compact('categories', 'product'));
     }
 
@@ -114,46 +112,56 @@ class ProductController extends Controller
     {
         $this->authorize('isAdmin');
 
-        $request->validate([
-            'name' => 'required',
-            'price' => 'required',
-            'weight' => 'required',
+        $validated = $request->validate([
             'description' => 'required',
+            'price' => 'required',
             'stock' => 'required',
             'categories_id' => 'required',
-            'image' => 'mimes:png,jpg,jpeg',
+            'image' => 'required',
         ]);
 
+        // dd($validated);
+
         $product = Product::findorfail($id);
+        // dd($product);
+        // if ($request->has('image')) {
+        //     $path = "images/product/";
+        //     File::delete($path . $product->image);
+        //     $image = time().'.'.$request->image->extension();
 
-        if ($request->has('image')) {
-            $path = "images/product/";
-            File::delete($path . $product->image);
-            $image = time().'.'.$request->image->extension();
+        //     $request->image->move(public_path('images/product'), $image);
 
-            $request->image->move(public_path('images/product'), $image);
-
-            $product_data = [
-                'name' => $request->name,
-                'price' => $request->price,
-                'weight' => $request->weight,
-                'description' => $request->description,
-                'stock' => $request->stock,
-                'categories_id' => $request->categories_id,
-                'image' => $image
-            ];
-        } else {
+        //     $product_data = [
+        //         'name' => $request->name,
+        //         'price' => $request->price,
+        //         'weight' => $request->weight,
+        //         'description' => $request->description,
+        //         'stock' => $request->stock,
+        //         'categories_id' => $request->categories_id,
+        //         'image' => $image
+        //     ];
+        // } else {
             
-            $product_data = [
-                'name' => $request->name,
-                'price' => $request->price,
-                'weight' => $request->weight,
-                'description' => $request->description,
-                'stock' => $request->stock,
-                'categories_id' => $request->categories_id,
-            ];
-        }
+        //     $product_data = [
+        //         'name' => $request->name,
+        //         'price' => $request->price,
+        //         'weight' => $request->weight,
+        //         'description' => $request->description,
+        //         'stock' => $request->stock,
+        //         'categories_id' => $request->categories_id,
+        //     ];
+        // }
 
+        $product_data = [
+            'c_description' => $request->description,
+            'c_price' => $request->price,
+            'c_qty' => $request->stock,
+            'cc_id' => $request->categories_id,
+            'c_img' => $request->image
+        ];
+
+        
+        // dd($product->update($product_data));
         $product->update($product_data);
 
         Alert::success('Success', 'Product Successfully Updated!');

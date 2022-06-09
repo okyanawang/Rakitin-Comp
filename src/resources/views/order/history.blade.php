@@ -24,34 +24,38 @@
             </thead>
             <tbody>
                 @foreach ($dataOrderDetails as $key => $itemDua)   
-                    @if($itemDua->orders_id == $item->id) 
+                    @if($itemDua->o_id == $item->o_id) 
+                      @foreach ($dataComponent as $key => $itemTiga)
+                        @if($itemTiga->c_id == $itemDua->c_id)
                         <tr>
                             <td>
                             <div class="media">
                                 <div class="d-flex">
-                                @if (Str::contains($itemDua->image, 'https:/'))
-                                    <img src="{{$itemDua->image}}" alt="image" height="200px">
+                                @if (Str::contains($itemTiga->c_img, 'https:/'))
+                                    <img src="{{$itemTiga->c_img}}" alt="image" height="200px">
                                 @else
-                                    <img src="{{ asset('images/product/'.$itemDua->image)}}" alt="image" height="200px">
+                                    <img src="{{ asset('images/product/'.$itemTiga->c_img)}}" alt="image" height="200px">
                                 @endif
                                 </div>
                                 <div class="media-body">
-                                <p>{{ $itemDua->name }}</p>
+                                <p>{{ $itemTiga->cc_name }}</p>
                                 </div>
                             </div>
                             </td>
                             <td>
-                            <h5>{{ $itemDua->price }}</h5>
+                            <h5>{{ $itemTiga->c_price }}</h5>
                             </td>
                             <td>
                             <div class="product_count">
-                                {{ $itemDua->quantity }}
+                                {{ $itemDua->od_qty }}
                             </div>
                         </td>
                         <td>
-                            <h5>{{ $itemDua->total_price }}</h5>
+                            <h5>{{ $itemTiga->c_price * $itemDua->od_qty }}</h5>
                         </td>
                     </tr>
+                        @endif
+                      @endforeach
                     @endif
                 @endforeach
               <tr>
@@ -61,7 +65,7 @@
                     <h5>Subtotal</h5>
                 </td>
                 <td>
-                    <h5>Rp {{ $item->amount }}</h5>
+                    <h5>Rp {{ $item->o_total_price }}</h5>
                 </td>
               </tr>
             </tbody>

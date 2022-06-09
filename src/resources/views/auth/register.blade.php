@@ -71,10 +71,6 @@
                                 @enderror
                             </div>
                             <div class="col-md-12 form-group">
-                                <div class="creat_account d-flex align-items-center">
-                                    <input type="checkbox" id="remember" name="remember">
-                                    <label for="remember">Remember me</label>
-                                </div>
                                 <button type="submit" value="submit" class="btn_3">
                                     register
                                 </button>

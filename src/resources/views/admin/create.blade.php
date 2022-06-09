@@ -7,23 +7,9 @@
             <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                     <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" name="name" value="{{ old('name', '') }}" class="form-control">
-                        @error('name')
-                            <div class="alert alert-danger" role="alert">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="form-group">
                         <label>Price</label>
                         <input type="number" name="price" value="{{ old('price', '') }}" class="form-control">
                         @error('price')
-                        <div class="alert alert-danger" role="alert">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label>Weight</label>
-                        <input type="number" name="weight" value="{{ old('weight', '') }}" class="form-control">
-                        @error('weight')
                         <div class="alert alert-danger" role="alert">{{ $message }}</div>
                         @enderror
                     </div>
@@ -36,8 +22,8 @@
                     </div>
                     <div class="form-group">
                         <label>Description</label>
-                        <textarea class="form-control" name="description" rows="3"> {{ old('description', '') }} </textarea>
-                        @error('description')
+                        <textarea class="form-control" name="c_description" rows="3">{{ old('c_description', '') }}</textarea>
+                        @error('c_description')
                         <div class="alert alert-danger" role="alert">{{ $message }}</div>
                         @enderror
                     </div>
@@ -46,10 +32,10 @@
                         <select name="categories_id" class="form-control">
                             <option value="">-- Select Category --</option>
                                 @foreach ($categories as $category)
-                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                    <option value="{{$category->cc_id}}">{{$category->cc_name}}</option>
                                 @endforeach
                         </select> <br><br>
-                        @error('category_id')
+                        @error('categories_id')
                         <div class="alert alert-danger" role="alert">{{ $message }}</div>
                         @enderror
                     </div>

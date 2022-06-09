@@ -8,8 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-    protected $table = "categories";
-    protected $fillable = ["name","description","thumbnail"];
+    protected $table = 'component_category';
+    protected $primaryKey = 'cc_id';
+    protected $keyType = 'string';
+    public $incrementing = false;
+    protected $fillable = ["cc_name","cc_description"];
 
     public function product()
     {
