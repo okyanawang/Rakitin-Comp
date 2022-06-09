@@ -18,15 +18,13 @@ class RegisterController extends Controller
     {
         $validated = $request->validate([
             'username' => 'required|max:255|min:3',
-            'email' => 'required|email:dns|unique:users',
+            'email' => 'required|email:dns|unique:account',
             'password' => 'required|min:6|max:255',
-            'a_no_hp' => 'required|unique:users',
+            'a_no_hp' => 'required|unique:account',
             'a_alamat' => 'required'
         ]);
 
         $validated['password'] = bcrypt($validated['password']);
-        
-        // $validated['role'] = 'customer';
 
         if (($user = User::create($validated))){
             

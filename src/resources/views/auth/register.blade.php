@@ -26,9 +26,9 @@
                         <form class="row contact_form" action="/register" method="post">
                             @csrf
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
-                                    placeholder="Username" required value="{{ old('name') }}">
-                                @error('name')
+                                <input type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username"
+                                    placeholder="Username" required value="{{ old('username') }}">
+                                @error('username')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -44,9 +44,9 @@
                                 @enderror
                             </div>
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone"
-                                    placeholder="Phone number" required value="{{ old('phone') }}">
-                                @error('phone')
+                                <input type="text" class="form-control @error('a_no_hp') is-invalid @enderror" id="a_no_hp" name="a_no_hp"
+                                    placeholder="Phone number" required value="{{ old('a_no_hp') }}">
+                                @error('a_no_hp')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -62,9 +62,9 @@
                                 @enderror
                             </div>
                             <div class="col-md-12 form-group p_star">
-                                <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="3" cols="50" 
-                                    placeholder="Home address" required>{{ old('address') }}</textarea>
-                                @error('address')
+                                <textarea class="form-control @error('a_alamat') is-invalid @enderror" id="a_alamat" name="a_alamat" rows="3" cols="50" 
+                                    placeholder="Home address" required>{{ old('a_alamat') }}</textarea>
+                                @error('a_alamat')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

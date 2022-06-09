@@ -40,10 +40,9 @@ class LoginController extends Controller
             ]);
         }
         
-        // $anjing = Auth::attempt($credentials);
         // dd($credentials);
-        dd(Auth::attempt($credentials));
-        if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']]))
+        // dd(Auth::attempt($credentials));
+        if (Auth::attempt($credentials))
         {
             
             if ($request->get('remember'))
@@ -55,7 +54,6 @@ class LoginController extends Controller
             $request->session()->regenerate();
             return redirect()->intended('/');
         }
-        dd($credentials);
         
         return back()->with('loginError', 'Login failed!');
     }
