@@ -49,10 +49,10 @@
                     <div class="best_product_slider owl-carousel">
                         @foreach ($products as $key => $item)
                             <div class="single_product_item">
-                                <img src="{{ $item->image }}" alt="">
+                                <img src="{{ $item->c_img }}" alt="">
                                 <div class="single_product_text">
-                                    <h4>{{ $item->name }}</h4>
-                                    <h3>Rp {{ $item->price }}</h3>
+                                    <h4>{{ $item->c_description }}</h4>
+                                    <h3>Rp {{ $item->c_price }}</h3>
                                 </div>
                                 {{-- <form action="shop" method="GET" enctype="multipart/form-data">
                                     @csrf
