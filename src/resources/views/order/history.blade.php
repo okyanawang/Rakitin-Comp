@@ -4,12 +4,15 @@
 <section class="cart_area padding_top">
     <div class="container">
       <div class="cart_inner">
+        @php
+            $count = 0
+        @endphp
         <div class="table-responsive">
         @forelse ($dataOrders as $key => $item) 
         @php
-            $sums = 0
+            $count = $count+1;
         @endphp
-        <h2>Order {{ $item->id }}  </h2>
+        <h2>Order {{ $count }}  </h2>
           <table class="table">
             <thead>
               <tr>
@@ -22,9 +25,6 @@
             <tbody>
                 @foreach ($dataOrderDetails as $key => $itemDua)   
                     @if($itemDua->orders_id == $item->id) 
-                    @php
-                        $sums = $sums + $itemDua->total_price
-                    @endphp
                         <tr>
                             <td>
                             <div class="media">
@@ -61,7 +61,7 @@
                     <h5>Subtotal</h5>
                 </td>
                 <td>
-                    <h5>Rp {{ $sums }}</h5>
+                    <h5>Rp {{ $item->amount }}</h5>
                 </td>
               </tr>
             </tbody>

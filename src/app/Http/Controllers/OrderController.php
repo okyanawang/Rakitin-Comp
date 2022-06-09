@@ -49,11 +49,12 @@ class OrderController extends Controller
             'order_address' => 'required',
             'shipping_address' => 'required',
         ]);
-
         $sums = DB::table('orders_detail')
             ->where('users_id', Auth::id())
+            ->where('orders_id', $id)
             ->sum('total_price');
 
+        // dd($sums);
         $query = DB::table('orders')
                 -> where('id', $id)
                 -> update([

@@ -37,9 +37,13 @@ Route::get('/history', [HistoryController::class, 'index']);
 Route::post('/register', [RegisterController::class, 'store']);
 
 Route::get('/shop', [ShopController::class, 'index']);
+
 Route::post('/shop', [ShopController::class, 'store']);
 
+Route::post('/category/shop', [ShopController::class, 'store']);
+
 Route::get('/cart', [CartController::class, 'index']);
+
 Route::post('/cart', [CartController::class, 'store']);
 
 Route::resource('product', ProductController::class);

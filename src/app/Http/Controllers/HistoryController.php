@@ -30,6 +30,6 @@ class HistoryController extends Controller
         $sums = 0;
         // dd($dataOrders);
         // dd($dataOrderDetails);
-        return view('order.history', compact('dataOrders', 'dataOrderDetails', 'sums'));
+        return view('order.history', compact('dataOrders', 'dataOrderDetails'));
     }
 }

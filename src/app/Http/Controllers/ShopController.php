@@ -26,6 +26,7 @@ class ShopController extends Controller
     public function store(Request $request){
         // $this->middleware('auth');
         $unc = "unclear";
+        
         $orders = DB::table('orders')
                      ->select('users_id')
                      ->where('users_id', $request["users_id"])
@@ -44,8 +45,23 @@ class ShopController extends Controller
                 "status" => $unc
             ]);
         }
+        
+        $ordersId = DB::table('orders')
+                ->select('id')
+                ->where('users_id', $request["users_id"])
+                ->where('status', $unc)
+                ->first();
 
-        // dd($neworders);
+                
+
+        $ordersDetailId = DB::table('orders_detail')
+                ->select('id')
+                ->where('users_id', $request["users_id"])
+                ->where('products_id', $request["id"])
+                ->where('orders_id', $ordersId->id)
+                ->first();
+
+                // dd($ordersDetailId);
 
         $ambil_id = DB::table('orders')
         ->select('id')
@@ -60,21 +76,24 @@ class ShopController extends Controller
             ->where('users_id', $request["users_id"])
             ->where('products_id', $request["id"])
             ->first();
-
-        if(!$pernah_order){
+        
+        if (!$ordersDetailId){
             $query = DB::table('orders_detail')->insert([
                 "users_id" => $request["users_id"],
                 "products_id" => $request["id"],
                 "price" => $request["price"],
                 "total_price" => $request["price"],
-                "quantity" => $request["quantity"],
+                "quantity" => 0,
                 "image" => $request["image"],
                 "name" => $request["name"],
                 "orders_id" => $ambil_id->id
             ]);
-        }else{
+        }
+        
+        if($pernah_order){
             $banyak_lama = DB::table('orders_detail')
             ->where('users_id', $request->users_id)
+            ->where('orders_id', $ordersId->id)
             ->where('products_id', $request->id)
             ->value('quantity');
             $banyak = $banyak_lama + 1;
@@ -83,7 +102,14 @@ class ShopController extends Controller
             $query = DB::table('orders_detail')
             ->where('users_id', $request->users_id)
             ->where('products_id', $request->id)
+            ->where('orders_id', $ordersId->id)
             ->update(['quantity' => $banyak, 'total_price' => $res]);
+        }else {
+            $query = DB::table('orders_detail')
+            ->where('users_id', $request->users_id)
+            ->where('products_id', $request->id)
+            ->where('orders_id', $ordersId->id)
+            ->update(['quantity' => 1]);
         }
 
         // dd($query);

@@ -8,9 +8,8 @@
             <div class="col-lg-6 col-md-6">
                 <div class="login_part_text text-center">
                     <div class="login_part_text_iner">
-                        <h2>New to our Shop?</h2>
-                        <p>There are advances being made in science and technology
-                            everyday, and a good example of this is the</p>
+                    <h2>Don't have an account? Get started here!</h2>
+                        <p>GKS SHOPPU is your source for Anime Figures & Merchandising. You’re looking for figurines, collectibles and merchandise of the latest and most popular series in anime, manga, cinema, comics, games and TV? You’ve come to the right place. In our online shop you’ll find the high quality product of your choice quickly and easily.</p>
                         <a href="\register" class="btn_3">Create an Account</a>
                     </div>
                 </div>

@@ -8,7 +8,7 @@
                     <div class="breadcrumb_iner">
                         <div class="breadcrumb_iner_item">
                             <h2>Checkout Product</h2>
-                            <p>Home <span>-</span> Tracking Order</p>
+                            <p>Thank you for shopping! See you again!</p>
                         </div>
                     </div>
                 </div>
