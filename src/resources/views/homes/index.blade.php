@@ -13,14 +13,14 @@
                             <div class="col-lg-5 col-md-8">
                                 <div class="banner_text">
                                     <div class="banner_text_iner">
-                                        <h1>POP UP PARADE</h1>
-                                        <p>Releases planned only four months after preorders, POP UP PARADE figures make scale figures easy to collect!</p>
+                                        <h1>PAKET GEMING ANTI BOCIL KEMATIAN</h1>
+                                        <p>Gg geming ga ges, rakitin PC mu hanya di Rakitin-Comp ya adick-adick ^^ !</p>
                                         <a href="/shop" class="btn_2">BUY NOW</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="banner_img d-none d-lg-block">
-                                <img src="img/pvc-17-saberaltria-pendragon-disp.png" alt="">
+                                <img src="img/yato.png" alt="">
                                 {{-- <img src="img/banner_img.png" alt=""> --}}
                             </div>
                         </div>

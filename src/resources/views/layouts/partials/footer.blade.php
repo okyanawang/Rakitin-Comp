@@ -48,7 +48,7 @@
             <div class="col-sm-6 col-lg-4">
                 <div class="single_footer_part">
                     <h4>Noted</h4>
-                    <p>This site was built by GKS Team presenting Fadel, Doanda, and Okyan as a team of PBKK Final Project with Laravel 9 and Free Bootstrap 4 Template by Colorlib. All Right Reserved.
+                    <p>This site was built by Rakitin-Comp Team presenting Fadel, Okyan, Kevin, Rudi, Monica and Graidy as a team of MBD Final Project with Laravel 9 and Free Bootstrap 4 Template by Colorlib. All Right Reserved.
                     </p>
                     <div id="mc_embed_signup">
                         <form target="_blank"
