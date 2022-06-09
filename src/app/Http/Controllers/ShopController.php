@@ -25,91 +25,100 @@ class ShopController extends Controller
 
     public function store(Request $request){
         // $this->middleware('auth');
-        $unc = "unclear";
+        $unc = 0;
         
         $orders = DB::table('orders')
-                     ->select('users_id')
-                     ->where('users_id', $request["users_id"])
-                     ->where('status', $unc)
+                     ->select('a_id_customer', 'o_id')
+                     ->where('a_id_customer', $request["users_id"])
+                     ->where('transaction_status', $unc)
                      ->first();
 
-        // dd($orders);
-
-        if(!$orders){
-            $neworders = DB::table('orders')->insert([
-                "users_id" => $request["users_id"],
-                "amount" => 0,
-                "shipping_address" => "none",
-                "order_address" => "none",
-                "order_date" => "2022-01-01",
-                "status" => $unc
+                     
+                     if(!$orders){
+                         $neworders = DB::table('orders')->insert([
+                             "a_id_customer" => $request["users_id"],
+                "o_total_price" => 0,
+                "o_address" => "none",
+                "transaction_status" => $unc
             ]);
         }
         
         $ordersId = DB::table('orders')
-                ->select('id')
-                ->where('users_id', $request["users_id"])
-                ->where('status', $unc)
+        ->select('o_id')
+        ->where('a_id_customer', $request["a_id_customer"])
+                ->where('transaction_status', $unc)
                 ->first();
+        
+        if(!$ordersId) {
+            $apaaa = DB::table('orders')
+            ->where('a_id_customer', $request["a_id_customer"])
+            ->update(['transaction_status' => 0]);
+        }
+        
+        $lastpls = DB::table('orders')
+        ->where('a_id_customer', $request["users_id"])
+        ->where('transaction_status', $unc)
+        ->value('o_id');
+        // ->get();
 
-                
-
-        $ordersDetailId = DB::table('orders_detail')
-                ->select('id')
-                ->where('users_id', $request["users_id"])
-                ->where('products_id', $request["id"])
-                ->where('orders_id', $ordersId->id)
-                ->first();
-
-                // dd($ordersDetailId);
+        // dd($request["users_id"]);
+        
+        // dd($lastpls);
+        // dd(array_values($lastpls));
+        // dd($request["id"]);
+        
+        $ordersDetailId = DB::table('order_details')
+        ->select('o_id')
+        ->where('c_id', $request["id"])
+        ->where('o_id', $lastpls)
+        ->first();
+        
+        // dd($ordersDetailId);
 
         $ambil_id = DB::table('orders')
-        ->select('id')
-        ->where('users_id', $request["users_id"])
-        ->where('status', $unc)
+        ->select('o_id')
+        ->where('a_id_customer', $request["id"])
+        ->where('transaction_status', $unc)
         ->first();
 
         // dd($ambil_id);
 
-        $pernah_order = DB::table('orders_detail')
-            ->select('users_id')
-            ->where('users_id', $request["users_id"])
-            ->where('products_id', $request["id"])
+        $pernah_order = DB::table('order_details')
+            ->select('o_id')
+            ->where('c_id', $request["id"])
+            ->where('o_id', $lastpls)
             ->first();
         
         if (!$ordersDetailId){
-            $query = DB::table('orders_detail')->insert([
-                "users_id" => $request["users_id"],
-                "products_id" => $request["id"],
-                "price" => $request["price"],
-                "total_price" => $request["price"],
-                "quantity" => 0,
-                "image" => $request["image"],
-                "name" => $request["name"],
-                "orders_id" => $ambil_id->id
+            $query = DB::table('order_details')->insert([
+                "c_id" => $request["id"],
+                "od_qty" => 0,
+                "o_id" => $lastpls
             ]);
         }
         
+        // dd($pernah_order);
+        // dd($request->price);
+
         if($pernah_order){
-            $banyak_lama = DB::table('orders_detail')
-            ->where('users_id', $request->users_id)
-            ->where('orders_id', $ordersId->id)
-            ->where('products_id', $request->id)
-            ->value('quantity');
+            $banyak_lama = DB::table('order_details')
+            ->where('o_id', $lastpls)
+            ->where('c_id', $request->id)
+            ->value('od_qty');
             $banyak = $banyak_lama + 1;
             $harga = $request->price;
             $res = $harga * $banyak;
-            $query = DB::table('orders_detail')
-            ->where('users_id', $request->users_id)
-            ->where('products_id', $request->id)
-            ->where('orders_id', $ordersId->id)
-            ->update(['quantity' => $banyak, 'total_price' => $res]);
+            $query = DB::table('order_details')
+            ->where('o_id', $lastpls)
+            ->where('c_id', $request->id)
+            ->update(['od_qty' => $banyak]);
+            // dd($query);
+            // ->update(['quantity' => $banyak, 'total_price' => $res]);
         }else {
-            $query = DB::table('orders_detail')
-            ->where('users_id', $request->users_id)
-            ->where('products_id', $request->id)
-            ->where('orders_id', $ordersId->id)
-            ->update(['quantity' => 1]);
+            $query = DB::table('order_details')
+            ->where('o_id', $lastpls)
+            ->where('c_id', $request->id)
+            ->update(['od_qty' => 1]);
         }
 
         // dd($query);
