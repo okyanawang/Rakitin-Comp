@@ -26,7 +26,7 @@
                 <div class="col-2">
                     <h4 class="mb-4">Categories</h4>
                     @foreach ($categories as $item)
-                    <a href="/category/{{$item->id}}" style="color:black;">{{$item->name}}</a><br><hr>
+                    <a href="/category/{{$item->cc_id}}" style="color:black;">{{$item->cc_name}}</a><br><hr>
                     @endforeach
                 </div>
                 <div class="col-lg-10">
@@ -34,22 +34,22 @@
                         @forelse ($products as $key => $product)
                             <div class="col-lg-3 col-sm-6">
                                 <div class="single_product_item membesar_gan" style="border: 2px solid #E7E9ED">
-                                    @if (Str::contains($product->image, 'https:/'))
-                                        <img src="{{$product->image}}" alt="image" style="width: 300px; height: 340px; object-fit: cover;">
+                                    @if (Str::contains($product->c_img, 'https:/'))
+                                        <img src="{{$product->c_img}}" alt="image" style="width: 300px; height: 340px; object-fit: cover;">
                                     @else
-                                        <img src="{{ asset('images/product/'.$product->image)}}" alt="image" style="width: 300px; height: 340px; object-fit: cover;">
+                                        <img src="{{ asset('images/product/'.$product->c_img)}}" alt="image" style="width: 300px; height: 340px; object-fit: cover;">
                                     @endif
                                     <div class="single_product_text">
-                                        <h4>{{ $product->name }}</h4>
-                                        <h3>Rp {{ $product->price }}</h3>
+                                        <h4>{{ $product->c_description }}</h4>
+                                        <h3>Rp {{ $product->c_price }}</h3>
                                         {{-- <p>{{ Auth::user()->fullname }}</p> --}}
                                         <form action="shop" method="POST" enctype="multipart/form-data">
                                             @csrf
-                                            <input type="hidden" value="{{ Auth::user()->id }}" name="users_id">
-                                            <input type="hidden" value="{{ $product->id }}" name="id">
-                                            <input type="hidden" value="{{ $product->name }}" name="name">
-                                            <input type="hidden" value="{{ $product->price }}" name="price">
-                                            <input type="hidden" value="{{ $product->image }}"  name="image">
+                                            <input type="hidden" value="{{ Auth::user()->a_id }}" name="users_id">
+                                            <input type="hidden" value="{{ $product->c_id }}" name="id">
+                                            <input type="hidden" value="{{ $product->c_description }}" name="name">
+                                            <input type="hidden" value="{{ $product->c_price }}" name="price">
+                                            <input type="hidden" value="{{ $product->c_img }}"  name="image">
                                             <input type="hidden" value="1" name="quantity">
                                             <button class="px-4 py-2 text-black bg-blue-800 rounded">Add To Cart</button>
                                         </form>
