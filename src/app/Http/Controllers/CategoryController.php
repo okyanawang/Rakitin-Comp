@@ -10,8 +10,8 @@ class CategoryController extends Controller
 {
     public function show($id)
     {
-        $products = Product::where('categories_id', $id)->get();
-        $category_name = Category::where('id', $id)->select('name')->pluck('name')->first();
+        $products = Product::where('cc_id', $id)->get();
+        $category_name = Category::where('cc_id', $id)->select('cc_name')->pluck('cc_name')->first();
         // dd($products);
         return view('category.index', compact('products', 'category_name'));
     }
