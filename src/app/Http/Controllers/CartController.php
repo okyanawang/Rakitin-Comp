@@ -17,19 +17,48 @@ class CartController extends Controller{
     public function index(){
         $user = Auth::user();
         $orders_id = DB::table('orders')
-            ->where('users_id', $user->id)
-            ->where('status', 'unclear')
-            ->select('id')
-            ->pluck('id')->first();
-        $cartItems = DB::table('orders_detail')->get()
-            ->where('users_id', $user->id)
-            ->where('orders_id', $orders_id);
-        $sums = DB::table('orders_detail')
-            ->where('users_id', $user->id)
-            ->where('orders_id', $orders_id)
+            ->where('a_id_customer', $user->a_id)
+            ->where('transaction_status', 0)
+            ->select('o_id')
+            ->pluck('o_id')->first();
+        $cartItems = DB::table('order_details')->get()
+            // ->where('users_id', $user->id)
+            ->where('o_id', $orders_id);
+        $lastpls = DB::table('orders')
+        ->where('a_id_customer', $user->a_id)
+        ->where('transaction_status', 0)
+        ->value('o_id');
+        // $dataImg = DB::table('order_details')   
+        //     ->join('component', 'order_details.c_id', '=', 'component.c_id')   
+        //     ->select('component.c_img')
+        //     ->where('orders.a_id_customer', $user->a_id)
+        //     ->where('orders.transaction_status', '1')
+        //     ->get();
+        $dataOrders = DB::table('orders')      
+            ->select('*')
+            ->where('orders.a_id_customer', $user->a_id)
+            ->where('orders.transaction_status', '0')
+            ->orderBy('orders.o_id', 'ASC')
+            ->get();
+        // dd($dataOrders);
+        $dataComponent = DB::table('component') 
+            ->join('component_category', 'component_category.cc_id', '=', 'component.cc_id')  
+            ->select('component.c_id', 'component.c_img', 'component.c_price', 'component_category.cc_name')
+            ->get();
+        // dd($dataComponent);
+        $dataOrderDetails = DB::table('order_details')   
+            ->join('orders', 'order_details.o_id', '=', 'orders.o_id')   
+            ->select('order_details.*')
+            ->where('orders.a_id_customer', $user->a_id)
+            ->where('orders.transaction_status', '0')
+            ->get();
+        // dd($dataOrderDetails);
+        $sums = DB::table('order_details')
+            // ->where('users_id', $user->id)
+            ->where('o_id', $lastpls)
             ->sum('total_price');
         // dd($sums);
-        return view('carts.index', compact('cartItems', 'user', 'sums', 'orders_id'));
+        return view('carts.index', compact('cartItems', 'user', 'sums', 'orders_id', 'dataComponent', 'dataOrderDetails', 'dataOrders'));
     }
 
     public function store(Request $request){
@@ -37,11 +66,15 @@ class CartController extends Controller{
         $harga = $request->price;
         $res = $harga * $banyak;
         if($banyak < 1){
-            DB::table('orders_detail')->where('id', $request->id)->delete();
+            DB::table('order_details')
+                ->where('o_id', $request->id)
+                ->where('c_id', $request->cid)
+                ->delete();
         }else{
-            $affected = DB::table('orders_detail')
-                ->where('id', $request->id)
-                ->update(['quantity' => $request->quantity, 'total_price' => $res]);
+            $affected = DB::table('order_details')
+                ->where('o_id', $request->id)
+                ->where('c_id', $request->cid)
+                ->update(['od_qty' => $request->quantity, 'total_price' => $res]);
         }
         // dd($res);
 

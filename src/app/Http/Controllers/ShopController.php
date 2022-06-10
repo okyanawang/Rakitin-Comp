@@ -111,14 +111,14 @@ class ShopController extends Controller
             $query = DB::table('order_details')
             ->where('o_id', $lastpls)
             ->where('c_id', $request->id)
-            ->update(['od_qty' => $banyak]);
+            ->update(['od_qty' => $banyak, 'total_price' => $res]);
             // dd($query);
             // ->update(['quantity' => $banyak, 'total_price' => $res]);
         }else {
             $query = DB::table('order_details')
             ->where('o_id', $lastpls)
             ->where('c_id', $request->id)
-            ->update(['od_qty' => 1]);
+            ->update(['od_qty' => 1, 'total_price' => $request->price]);
         }
 
         // dd($query);
