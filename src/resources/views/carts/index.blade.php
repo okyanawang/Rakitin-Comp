@@ -4,6 +4,9 @@
 <section class="cart_area padding_top">
   <div class="container">
     <div class="cart_inner">
+      @php
+            $count = 0
+      @endphp
       <div class="table-responsive">
       @forelse ($dataOrders as $key => $item) 
       <h2> Cart </h2>
@@ -70,6 +73,9 @@
                       </td>
                       <td>
                           <h5>{{ $itemTiga->c_price * $itemDua->od_qty }}</h5>
+                          @php
+                              $count = $count + $itemTiga->c_price * $itemDua->od_qty
+                          @endphp
                       </td>
                   </tr>
                       @endif
@@ -83,7 +89,7 @@
                   <h5>Subtotal</h5>
               </td>
               <td>
-                  <h5>Rp {{ $item->o_total_price }}</h5>
+                  <h5>Rp {{ $count }}</h5>
               </td>
             </tr>
           </tbody>
