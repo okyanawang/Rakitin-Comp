@@ -32,8 +32,8 @@ class HistoryController extends Controller
 
         // dd($dataOrderDetails);
         $dataComponent = DB::table('component') 
-            ->join('component_category', 'component_category.cc_id', '=', 'component.cc_id')  
-            ->select('component.c_id', 'component.c_img', 'component.c_price', 'component_category.cc_name')
+            // ->join('component_category', 'component_category.cc_id', '=', 'component.cc_id')  
+            ->select('component.c_id', 'component.c_img', 'component.c_price', 'component.c_description')
             ->get();
 
         // dd($dataComponent);

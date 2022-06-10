@@ -38,7 +38,7 @@
                                 @endif
                                 </div>
                                 <div class="media-body">
-                                <p>{{ $itemTiga->cc_name }}</p>
+                                <p>{{ $itemTiga->c_description }}</p>
                                 </div>
                             </div>
                             </td>
