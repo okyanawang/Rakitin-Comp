@@ -19,21 +19,20 @@ class OrderController extends Controller
     {
         $user = Auth::user();
         $orders_id = DB::table('orders')
-            ->where('users_id', $user->id)
-            ->where('status', 'unclear')
-            ->select('id')
-            ->pluck('id')->first();
-        $cartItems = DB::table('orders_detail')->get()
-            ->where('users_id', $user->id)
-            ->where('orders_id', $orders_id);
-        $sums = DB::table('orders_detail')
-            ->where('users_id', $user->id)
-            ->where('orders_id', $orders_id)
-            ->sum('total_price');
+            ->where('a_id_customer', $user->a_id)
+            ->where('transaction_status', '0')
+            ->select('o_id')
+            ->pluck('o_id')->first();
+        $cartItems = DB::table('order_details')
+            ->join('component', 'component.c_id' , '=', 'order_details.c_id')
+            ->where('order_details.o_id', $orders_id)->get();
+        $sums = DB::table('order_details')
+            ->join('component', 'component.c_id' , '=', 'order_details.c_id')
+            ->where('order_details.o_id', $orders_id)
+            ->sum(DB::raw('order_details.od_qty * component.c_price'));
+        // dd($sums);
 
-        // dd($cartItems);
-
-        return view('order.edit', compact('cartItems', 'sums', 'orders_id'));
+        return view('order.edit', compact('cartItems', 'orders_id', 'sums'));
     }
 
     /**
@@ -47,22 +46,20 @@ class OrderController extends Controller
     {
         $request->validate([
             'order_address' => 'required',
-            'shipping_address' => 'required',
         ]);
-        $sums = DB::table('orders_detail')
-            ->where('users_id', Auth::id())
-            ->where('orders_id', $id)
-            ->sum('total_price');
+        $sums = DB::table('order_details')
+            ->join('component', 'component.c_id' , '=', 'order_details.c_id')
+            ->where('order_details.o_id', $id)
+            ->sum(DB::raw('order_details.od_qty * component.c_price'));
 
         // dd($sums);
         $query = DB::table('orders')
-                -> where('id', $id)
+                -> where('o_id', $id)
                 -> update([
-                    'amount' => $sums,
-                    'shipping_address' => $request['shipping_address'],
-                    'order_address' => $request['order_address'],
-                    'order_date' => date('Y-m-d'),
-                    'status' => 'clear'
+                    'o_total_price' => $sums,
+                    'o_address' => $request['order_address'],
+                    'o_date' => date('Y-m-d'),
+                    'transaction_status' => '1'
                 ]);
 
         return redirect('/shop');

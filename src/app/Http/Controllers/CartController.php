@@ -55,8 +55,7 @@ class CartController extends Controller{
         // dd($dataOrderDetails);
         $sums = DB::table('order_details')
             // ->where('users_id', $user->id)
-            ->where('o_id', $lastpls)
-            ->sum('total_price');
+            ->where('o_id', $lastpls);
         // dd($sums);
         return view('carts.index', compact('cartItems', 'user', 'sums', 'orders_id', 'dataComponent', 'dataOrderDetails', 'dataOrders'));
     }
@@ -74,7 +73,7 @@ class CartController extends Controller{
             $affected = DB::table('order_details')
                 ->where('o_id', $request->id)
                 ->where('c_id', $request->cid)
-                ->update(['od_qty' => $request->quantity, 'total_price' => $res]);
+                ->update(['od_qty' => $request->quantity]);
         }
         // dd($res);
 

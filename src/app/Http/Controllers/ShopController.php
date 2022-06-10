@@ -16,7 +16,7 @@ class ShopController extends Controller
     }
     
     public function index(){
-        $products = DB::table('component')->get();
+        $products = DB::table('component')->orderBy('c_id')->get();
         $categories = Category::all();
         $user = Auth::user();
         // dd($products);
@@ -111,14 +111,14 @@ class ShopController extends Controller
             $query = DB::table('order_details')
             ->where('o_id', $lastpls)
             ->where('c_id', $request->id)
-            ->update(['od_qty' => $banyak, 'total_price' => $res]);
+            ->update(['od_qty' => $banyak]);
             // dd($query);
             // ->update(['quantity' => $banyak, 'total_price' => $res]);
         }else {
             $query = DB::table('order_details')
             ->where('o_id', $lastpls)
             ->where('c_id', $request->id)
-            ->update(['od_qty' => 1, 'total_price' => $request->price]);
+            ->update(['od_qty' => 1]);
         }
 
         // dd($query);

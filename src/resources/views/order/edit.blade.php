@@ -32,13 +32,6 @@
                       <div class="alert alert-danger" role="alert">{{ $message }}</div>
                     @enderror
                   </div>
-                  <div class="col-md-12 form-group p_star">
-                    <textarea class="form-control" name="shipping_address" id="message" rows="1"
-                      placeholder="Shipping Address"></textarea>
-                    @error('shipping_address')d
-                      <div class="alert alert-danger" role="alert">{{ $message }}</div>
-                    @enderror
-                  </div>
                   <button type="submit" class="btn btn-primary btn-block">Order Now</button>
                 </form>
               </div>
@@ -54,13 +47,13 @@
                       </tr>
                     </thead>
                     <tbody>
-                        @foreach ($cartItems as $item)
+                      @foreach ($cartItems as $item)
                         <tr>
-                            <td>{{$item->name}}</td>
-                            <td>x{{$item->quantity}}</td>
-                            <td>Rp{{$item->price}}</td>
+                            <td>{{$item->c_description}}</td>
+                            <td>x{{$item->od_qty}}</td>
+                            <td>Rp{{$item->c_price}}</td>
                         </tr>
-                    @endforeach
+                      @endforeach
                       <tr>
                         <td>TOTAL</td>
                         <td></td>
