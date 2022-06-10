@@ -22,6 +22,13 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label>Weight</label>
+                        <input type="number" name="weight" value="{{ $product->c_weight }}" class="form-control">
+                        @error('weight')
+                        <div class="alert alert-danger" role="alert">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label>Description</label>
                         <textarea class="form-control" name="description" rows="3">{{ $product->c_description }} </textarea>
                         @error('description')

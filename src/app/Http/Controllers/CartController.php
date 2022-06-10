@@ -38,12 +38,10 @@ class CartController extends Controller{
             ->select('*')
             ->where('orders.a_id_customer', $user->a_id)
             ->where('orders.transaction_status', '0')
-            ->orderBy('orders.o_id', 'ASC')
             ->get();
         // dd($dataOrders);
         $dataComponent = DB::table('component') 
-            ->join('component_category', 'component_category.cc_id', '=', 'component.cc_id')  
-            ->select('component.c_id', 'component.c_img', 'component.c_price', 'component_category.cc_name')
+            ->select('component.c_id', 'component.c_img', 'component.c_price', 'component.c_description')
             ->get();
         // dd($dataComponent);
         $dataOrderDetails = DB::table('order_details')   
@@ -51,6 +49,7 @@ class CartController extends Controller{
             ->select('order_details.*')
             ->where('orders.a_id_customer', $user->a_id)
             ->where('orders.transaction_status', '0')
+            ->orderBy('order_details.c_id', 'ASC')
             ->get();
         // dd($dataOrderDetails);
         $sums = DB::table('order_details')

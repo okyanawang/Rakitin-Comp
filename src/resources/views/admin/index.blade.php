@@ -17,6 +17,7 @@
                     <th>Description</th>
                     <th>Price</th>
                     <th>Stock</th>
+                    <th>Weight</th>
                     <th>Category</th>
                     <th>Action</th>
                 </tr>
@@ -35,6 +36,7 @@
                         <td>{{ $product->c_description }}</td>
                         <td>{{ $product->c_price }}</td>
                         <td>{{ $product->c_qty }}</td>
+                        <td>{{ $product->c_weight }}</td>
                         <td>{{ $product->category->cc_name }}</td>
                         <td class="d-flex justify-content-around">
                             <a href="/product/{{ $product->c_id }}/edit" class="btn btn-warning btn-sm">Edit</a>

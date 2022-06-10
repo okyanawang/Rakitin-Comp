@@ -20,7 +20,7 @@ class ProductController extends Controller
     public function index()
     {
         $this->authorize('isAdmin');
-        $products = Product::all();
+        $products = Product::all()->sortBy('c_id');
         $categories = Category::all();
         return view('admin.index', compact('products', 'categories'));
     }
@@ -54,6 +54,7 @@ class ProductController extends Controller
             'stock' => 'required',
             'categories_id' => 'required',
             'image' => 'required',
+            'weight' => 'required'
         ]);
 
         // $image = time().'.'.$request->image->extension();
@@ -67,6 +68,7 @@ class ProductController extends Controller
         $product->c_qty = $request->stock;
         $product->cc_id = $request->categories_id;
         $product->c_img = $request->image;
+        $product->c_weight = $request->weight;
    
         $product->save();
         // $request->image->move(public_path('images/product'), $image);
@@ -118,6 +120,7 @@ class ProductController extends Controller
             'stock' => 'required',
             'categories_id' => 'required',
             'image' => 'required',
+            'weight' => 'required'
         ]);
 
         // dd($validated);
@@ -157,7 +160,8 @@ class ProductController extends Controller
             'c_price' => $request->price,
             'c_qty' => $request->stock,
             'cc_id' => $request->categories_id,
-            'c_img' => $request->image
+            'c_img' => $request->image,
+            'c_weight' => $request->weight
         ];
 
         

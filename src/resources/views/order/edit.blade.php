@@ -32,6 +32,17 @@
                       <div class="alert alert-danger" role="alert">{{ $message }}</div>
                     @enderror
                   </div>
+                  <div class="col-md-12 form-group p_star">
+                        <select name="shipping" class="form-control">
+                            <option value="">-- Select Shipping --</option>
+                                @foreach ($shipping as $item)
+                                    <option value="{{$item->s_id}}">{{$item->s_name}}</option>
+                                @endforeach
+                        </select> <br><br>
+                        @error('shipping')
+                        <div class="alert alert-danger" role="alert">{{ $message }}</div>
+                        @enderror
+                    </div>
                   <button type="submit" class="btn btn-primary btn-block">Order Now</button>
                 </form>
               </div>

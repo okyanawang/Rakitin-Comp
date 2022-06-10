@@ -30,9 +30,12 @@ class OrderController extends Controller
             ->join('component', 'component.c_id' , '=', 'order_details.c_id')
             ->where('order_details.o_id', $orders_id)
             ->sum(DB::raw('order_details.od_qty * component.c_price'));
-        // dd($sums);
+        $shipping = DB::table('shipping')
+            ->select("shipping.*")
+            ->get();
+        // dd($shipping);
 
-        return view('order.edit', compact('cartItems', 'orders_id', 'sums'));
+        return view('order.edit', compact('cartItems', 'orders_id', 'sums', 'shipping'));
     }
 
     /**
@@ -44,22 +47,33 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'order_address' => 'required',
+            'shipping' => 'required'
         ]);
+
+        // dd($validated);
+
         $sums = DB::table('order_details')
             ->join('component', 'component.c_id' , '=', 'order_details.c_id')
             ->where('order_details.o_id', $id)
             ->sum(DB::raw('order_details.od_qty * component.c_price'));
 
-        // dd($sums);
+        $weight = DB::table('order_details')
+            ->join('component', 'component.c_id' , '=', 'order_details.c_id')
+            ->where('order_details.o_id', $id)
+            ->sum(DB::raw('order_details.od_qty * component.c_weight'));
+
+        // dd($weight);
         $query = DB::table('orders')
                 -> where('o_id', $id)
                 -> update([
+                    'o_total_weight' => $weight,
                     'o_total_price' => $sums,
                     'o_address' => $request['order_address'],
                     'o_date' => date('Y-m-d'),
-                    'transaction_status' => '1'
+                    'transaction_status' => '1',
+                    's_id' => $request['shipping']
                 ]);
 
         return redirect('/shop');
